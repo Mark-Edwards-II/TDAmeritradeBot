@@ -3,7 +3,7 @@ import pandas as pdb
 from tdclient import TDClient
 
 from dateutil import milliseconds_since_epoch
-# from td.utils import milliseconds_since_epoch
+from tdutils import milliseconds_since_epoch
 
 from datetime import datetime
 from datetime import time
