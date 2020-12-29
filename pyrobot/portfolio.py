@@ -3,6 +3,8 @@ from typing import Dict
 from typing import Union
 from typing import Optional
 
+from tdclient import TDClient
+
 class Portfolio():
 
     def __init__(self, account_number: Optional[str]):
@@ -13,6 +15,7 @@ class Portfolio():
         self.profit_loss = 0.0
         self.risk_tolerence = 0.0
         self.account_number = account_number
+        self._td_client: TDClient = None
         
     def add_position(self, symbol: str, asset_type: str, purchase_date: Optional[str], quantity: int = 0, purchase_price: float = 0.0) -> dict:
         
@@ -73,3 +76,30 @@ class Portfolio():
             return True
         elif (purchase_price > current_price): 
             return False
+
+    @property
+    def td_client(self) -> TDClient:
+        """Gets the TDClient object for the Portfolio
+
+        Returns:
+        ----
+        {TDClient} -- An authenticated session with the TD API.
+        """
+
+        return self._td_client
+
+    @td_client.setter
+    def td_client(self, td_client: TDClient) -> None:
+        """Sets the TDClient object for the Portfolio
+
+        Args:
+            td_client (TDClient): An authenticated session with the TD API.
+        """
+
+        self._td_client = td_client
+
+    def total_allocation(self):
+        pass
+    
+    def risk_exposure(self):
+        pass
