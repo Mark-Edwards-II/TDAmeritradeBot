@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from datetime import datetime
 from datetime import time
+from datetime import datetime
 from datetime import timezone
 
 from typing import List
@@ -15,7 +15,7 @@ from tdclient import ROWID
 
 class StockFrame():
 
-    def __init__(self, data:List[dict]) -> None:
+    def __init__(self, data: List[dict]) -> None:
 
         self._data = data
         self._frame: pd.DataFrame = self.create_frame()
@@ -27,7 +27,7 @@ class StockFrame():
         return self._frame
 
     @property
-    def symbol_goups(self) -> DataFrameGroupBy:
+    def symbol_groups(self) -> DataFrameGroupBy:
 
         self._symbol_groups = self._frame.groupby(
             by='symbol',
@@ -40,7 +40,7 @@ class StockFrame():
     def symbol_rolling_groups(self, size: int) -> RollingGroupby:
         
         if not self._symbol_groups:
-            self.symbol_goups
+            self.symbol_groups
 
         self._symbol_rolling_groups = self._symbol_groups.rolling(size)
 

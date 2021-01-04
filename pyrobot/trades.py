@@ -88,7 +88,7 @@ class Trade():
             self.stop_price = price
             self.stop_limit_price = stop_limit_price
         else:
-            self.stop_price = 0.00
+            self.stop_price = 0.0
 
 #store improtant side info.
         if self.enter_or_exit == 'enter':
@@ -137,7 +137,7 @@ class Trade():
         if not self._triggered_added:
             self._convert_to_trigger()
 
-        self.add_take_profit(profit_size=profit_size,percentage=percentage)
+        self.add_take_profit(profit_size=profit_size, percentage=percentage)
         
         if not stop_limit:
             self.add_stop_loss(stop_size=profit_size, percentage=percentage)

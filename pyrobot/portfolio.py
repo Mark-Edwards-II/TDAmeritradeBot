@@ -28,9 +28,10 @@ class Portfolio():
 
         return self.positions
 
-    def add_positions(self, positions: List[dict]):
-
+    def add_positions(self, positions: List[dict]) -> dict:
+        
         if isinstance(positions, list):
+        
             for position in positions:
 
                 self.add_position(

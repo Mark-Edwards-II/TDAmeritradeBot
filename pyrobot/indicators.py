@@ -15,7 +15,7 @@ class Indicators():
     def __init__(self, price_data_frame: StockFrame) -> None:
         # anything leading with an underscore is private.
         self._stock_frame: StockFrame = price_data_frame
-        self._price_groups = self._stock_frame.symbol_goups
+        self._price_groups = price_data_frame.symbol_goups
         self._current_indicators = {}
         # as we add new rows data we have to recalculate our indicators, loop takes indicators previously entered and assumes you want to keep them the same and uses them and updates columns with latest data.
         self._indicators_signals = {}
@@ -99,8 +99,9 @@ class Indicators():
 
         relative_strength_index = 100.0 - (100.0 / (1.0 + relative_strength))
 
+# Add the RSI indicator to the data frame.
         self._frame['rsi'] = np.where(relative_strength_index == 0, 100, 100.0 - (100.0 / (1.0 + relative_strength)))
-
+# clean up before sending back
         self._frame.drop(
             labels=['ewma_up', 'ewma_down', 'down_day', 'up_day', 'change_in_price'],
             axis=1,
@@ -118,7 +119,7 @@ class Indicators():
         self._current_indicators[column_name] = {}
         self._current_indicators[column_name]['args'] = locals_data
         self._current_indicators[column_name]['func'] = self.sma
-
+# Add the SMA
         self._frame[column_name] = self._price_groups['clase'].transform(
             lambda x: x.rolling(window=period).mean()
         )
@@ -144,7 +145,7 @@ class Indicators():
     def refresh(self):
         
         #First update the groups
-        self._price_groups = self._stock_frame.symbol_goups
+        self._price_groups = self._stock_frame.symbol_groups
 
         # Loop through all the stored indicators
 

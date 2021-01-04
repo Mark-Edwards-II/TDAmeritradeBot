@@ -85,4 +85,4 @@ else:
 
 # Grab the current quotes in our potfolio.
 current_quotes = trading_robot.grab_current_quotes()
-pprint.pprint(current_quotes)
+# pprint.pprint(current_quotes)

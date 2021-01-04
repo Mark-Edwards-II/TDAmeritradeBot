@@ -1,8 +1,7 @@
 import pandas as pdb
 
-from tdclient import TDClient
+from tdclient import DataError, TDClient
 
-from dateutil import milliseconds_since_epoch
 from tdclient.util import milliseconds_since_epoch
 
 from datetime import datetime
@@ -14,6 +13,8 @@ from typing import Dict
 from typing import Union
 
 from pyrobot.portfolio import Portfolio
+from pyrobot.stock_frame import StockFrame
+
 
 class PyRobot():
 
@@ -48,7 +49,7 @@ class PyRobot():
     @property
     def pre_market_open(self) -> bool:
         
-        pre_market_start_time = datetime.now().replace(hour=12, minute=00, second=00, tzinfo=timezone.utc)
+        pre_market_start_time = datetime.now().replace(hour=12, minute=00, second=00, tzinfo=timezone.utc).timestamp()
         market_start_time = datetime.now().replace(hour=13, minute=30, second=00, tzinfo=timezone.utc).timestamp()
         right_now = datetime.now().replace(tzinfo=timezone.utc).timestamp()
 
@@ -57,11 +58,10 @@ class PyRobot():
         else:
             return False
 
-
     @property
     def post_market_open(self) -> bool:
 
-        post_market_end_time = datetime.now().replace(hour=12, minute=00, second=00, tzinfo=timezone.utc)
+        post_market_end_time = datetime.now().replace(hour=22, minute=30, second=00, tzinfo=timezone.utc).timestamp()
         market_end_time = datetime.now().replace(hour=20, minute=00, second=00, tzinfo=timezone.utc).timestamp()
         right_now = datetime.now().replace(tzinfo=timezone.utc).timestamp()
 
@@ -96,10 +96,13 @@ class PyRobot():
     def create_trade(self):
         pass
 
-    def create_stock_frame(self):
-        pass
+    def create_stock_frame(self, data: List[dict]) -> StockFrame:
+        
+        self.stock_frame = StockFrame(data=data)
 
-    def create_curent_quotes(self) -> dict:
+        return self.stock_frame
+
+    def grab_curent_quotes(self) -> dict:
         
         # First grab all the symbols.
         symbols = self.portfolio.positions.keys()
@@ -109,6 +112,7 @@ class PyRobot():
 
         return quotes
 
-
-    def grab_historical_prices(self) -> List[Dict]:
+    def grab_historical_prices(self, start: datetime, end: datetime, bar) -> List[Dict]:
         pass
+
+
